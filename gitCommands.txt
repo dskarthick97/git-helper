@@ -1,0 +1,294 @@
+CONFIGURING GIT:
+    git config -l / git config --list
+    
+    git config --global user.name "username"
+    
+    git config --global user.email "useremail"
+    
+    git config --global credential.helper cache
+    
+    git config --global core.editor "code --wait" 
+        - wait flag will hold the commit action until the message file is closed
+
+REPO INIT:
+    git init
+
+GIT CLONE:
+    git clone <url>
+        - always downloads a master / main branch
+    
+    git clone <url> --branch <branch-name> --single-branch
+        - downloads a specific branch, not master
+    
+    git clone <url> --branch <branch-name> --single-branch [<folder>]
+        - download only a specific folder from a branch
+
+
+    git status 
+        - shows staged, unstaged and untracked files
+
+GIT ADD:
+    git add file1 file2 ...
+    
+    git add file*
+    
+    git add .
+    
+
+    git restore --staged <file>
+    
+    git restore --staged .
+    	- unstaged all staged files
+
+GIT COMMIT:
+    NOTE: 
+        - commits should be atomic
+    BEST PRACTICES: 
+        - Commit message in Imperative - a.k.a. present tense
+    
+    git commit 
+        - will opens a configured editor to input commit message
+    
+    git commit -m "commit message"
+    
+    git commit -a -m "commit message" 
+        - stages all file and commits
+    
+    git commit --amend 
+        - allows to modify and add changes to the most recent commit
+    
+    
+    git show commit-id
+
+GIT LOG:
+    git log 
+        - shows author, date, commitId and commit message
+    
+    git log --oneline 
+        - shows every commit in a single line
+    
+    git log --stat 
+        - shows commit history along with the changed file names
+    
+    git log -p 
+        - shows commit history along the changes made in a file
+
+    git log --graph --oneline
+        - commit log to show as a graph.
+
+GIT BRANCH:
+    NOTE: 
+        commit the work before switching branches or else the uncommited or unstaged
+            or staged changes will get aborted. / stash the changes.
+        Abortions happens if a file present in both the branches.
+        if a file which are not present in both the branches, there will be no 
+            conflict but the file will follow us every branch we switch.
+    
+    SWITCHING BRANCHES:
+        git branch
+        
+        git branch -v
+            - shows recent commit id and message
+        
+        git branch <branch-name>
+        
+        git switch <branch-name> 
+            - newer command for switching branches
+        
+        git checkout <branch-name> 
+            - old command for switching branches. But do lot more than just switching
+                See GOOD TO KNOW section.
+        
+        git switch -c <branch-name> 
+            - create a new branch and switch in one go
+        
+        git checkout -b <branch-name> 
+            - create a new branch and switch in one go
+    
+    DELETING BRANCHES:
+        git branch -d <branch-name> 
+            - cannot delete a branch from that branch and gives an error if the branch
+                is not merged.
+        
+        git branch -D <branch-name> / git branch --delete --force <branch-name> 
+            - deletes a branch even if the branch is not merged
+    
+    RENAMING BRANCHES:
+        git branch -m <branch-name> / git branch --move <branch-name>
+            - TODO: switch to the branch that be to renamed.
+
+GIT MERGE:
+    TODO:
+        Go to the destination branch where you want to merge.
+            Eg: If a branch1 wants to merge with master branch, switch to master 
+                and execute merge command.
+    
+    NOTE:
+        We merge branches, not specific commits
+        We always merge to the current HEAD branch
+        
+        FAST-FORWARD MERGE: Where there are no commits in the branch from which we
+            created a new branch, from since we created a new branch. Here, the HEAD 
+            shifts it pointer to merged branch.
+        
+        MERGE COMMIT (NO CONFLICT): There are commits in the branch from which we 
+            created a new branch, from since we created a new branch. But no conflicts. 
+            Here git will create a new commit called merge commit. So the recent 
+            commit will have two parent commits - one in the destination branch 
+            and one in merged branch
+
+        MERGE COMMIT (CONFLICT): Open the conflict file. Then Manually edit and 
+            commit the file.
+
+    git merge <branch-name>
+
+GIT DIFF:
+    git diff
+        - list all the unstaged changes in the working directory
+    
+    git diff [filename]
+    
+    git diff HEAD
+        - list all the changes in the working directory since last commit that includes 
+            both staged and unstaged files and also untracked files
+    
+    git diff HEAD [filename]
+    
+    git diff --staged / git diff --cached
+        - list all the staged changes and the last commit
+    
+    git diff --staged [filename]
+    
+    git diff branch1..branch2 / git diff branch1 branch2
+        - list the changes between the branches
+    
+    git diff commit1..commit2 / git diff commit1 commit2
+        - list the changes between the any commits
+
+GIT STASH:
+    git stash / git stash save
+        - helps us save changes that are not yet ready to commit.
+    
+    git stash pop
+        - remove the most recently stashed changes and re-apply the changes to
+            working directory
+    
+    git stash apply
+        - similar to git pop but instead we can also apply the stashed changes 
+            somewhere else. But the pop re-apply & removes the changes.
+    
+    STASHING MULTIPLE TIMES:
+        git stash list
+            - lists all the stashes. git stash pop will re-apply the old stashed 
+                changes.
+    
+        git stash apply <stash_index>
+            - Eg. git stash apply stash@{2}
+            - will re-apply the specific stashed changes
+
+    REMOVE STASHES:
+        git stash drop <stash_index>
+    
+        git stash clear
+            - clears all the stashes
+
+GOOD TO KNOW:
+    UNDOING & TIME TRAVELLING:
+        git checkout <commit-hash>
+            - Will produce Detached HEAD state
+            - This command will points to the specific commit instead of branch reference.
+                Use cases: 
+                    Stay in detached branch for examining the old commit contents.
+                    Create a new branch and switch to it.
+            - For attaching HEAD again to a branch, git switch <branch-name>
+        
+        git checkout HEAD~1
+            - same as the previous command but instead it shifts the HEAD to the 
+                commits from the current commit.
+
+        git checkout HEAD <filename> / git checkout -- <filename>
+            - discard the changes in a specific file before staging
+
+GIT RESTORE:
+        NOTE: 
+            This command is not undoable. If have uncommited changes in the file, 
+                it will be lost.
+            Save the file before using this command.
+
+        git restore / git restore --source HEAD
+            - same functionality as the last command.
+            - Will discard the changes in the file since the last commit.
+
+        git restore --source <commit-hash> <filename>
+            - Helps in discarding the changes in the file and restores the file 
+                of specific commit
+            - Use git restore <filename> for restoring to the recent commit.
+
+        git restore --staged <filename>
+        git restore --staged .
+
+GIT RESET:
+    git reset <commit-hash>
+        - will reset the repo back to the specific commit. The commits are gone.
+            but the changes of those commit persists in the working directory.
+
+    git reset --hard <commit-hash>
+        - will reset the repo back to the specific commit and changes of the
+            removed commit will be gone too.
+
+GIT REVERT:
+    git revert <commit-hash>
+        - similar to git reset but "undo" changes in a different way. Instead of 
+            deleting the commits, it makes a new commit and revert those changes 
+            in that commit.
+
+
+GIT REMOTE:
+    git remote add <name> <url>
+        - 'origin' is the very common remote name
+    
+    git remote rename <old-name> <new-name>
+    
+    git remote remove <name>
+
+    git remote -v / git remote --verbose
+        - will lists out the remote origin url
+
+GIT PUSH:
+    git push <remote> <branch>
+        - For the first time, it will create a branch and push the changes into it.
+        - Then anytime we push that branch, it just pushes the changes.
+
+    git push <remote> <local-branch>:<remote-branch>
+        - helps in pushing local branch into the remote branch with new remote branch name. 
+
+    git push -u <remote> <branch> / git push --set-upstream <remote> <local-branch>
+        - -u option allows to set the upstream of the branch we're pushing. Which means
+            it creates a link between local and remote branch
+        - If we set the upstream as git push origin master, we can use git push from
+            the next time we push instead of git push <remote> <branch>
+
+GIT FETCH & PULL:
+    NOTE:
+        When git clone, by default will clone and tracks (origin/master) only the master/main 
+        branch. If you do git branch, only the master branch will list. But if you do 
+        git branch -r, it will lists all the remote branches. From that we come to 
+        know that git won't track branches other than main/master by default.
+
+        In order to set the git to track any remote branch, use git switch <branch-name>.
+        git switch <branch-name> will create a new branch locally and starts to track
+
+    git branch -r
+        - to view all the remote tracking branches
+    
+    git fetch <remote>
+        - fetches branches and history from a specific remote repo.
+        - Only updates the local repo and not the working space.
+
+    git fetch <remote> <branch>
+        - Would fetch all changes from the origin remote repo.
+
+    git pull <remote> <branch>
+        - git pull = git fetch + git merge
+        - used to retrieve changes from a remote repo. Unlike fetch, pull actually
+            updates our HEAD branch / working space.
