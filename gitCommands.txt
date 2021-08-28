@@ -168,6 +168,7 @@ GIT DIFF:
 GIT STASH:
     git stash / git stash save
         - helps us save changes that are not yet ready to commit.
+        - git stash requires add your changes 
     
     git stash pop
         - remove the most recently stashed changes and re-apply the changes to
@@ -292,3 +293,14 @@ GIT FETCH & PULL:
         - git pull = git fetch + git merge
         - used to retrieve changes from a remote repo. Unlike fetch, pull actually
             updates our HEAD branch / working space.
+
+GITHUB ODDS & ENDS:
+    GITHUB GISTS:
+        - A simple way to share code snippets and useful fragments with others.
+
+    GITHUB PAGES:
+        - Github Pages are public webpages that are hosted and published via Github.
+            We can create a website by simply pushing the code to Github.
+            Only limited to static pages. (HTML, CSS and JS)
+
+        - Github pages divides into User Site and Project Site
