@@ -256,6 +256,10 @@ GIT REMOTE:
         - will lists out the remote origin url
 
 GIT PUSH:
+    Best practice:
+        - Before pushing the feature branch code to the remote repo, use pull command to ensure that your HEAD main is 
+            up to date with the origin/main
+
     git push <remote> <branch>
         - For the first time, it will create a branch and push the changes into it.
         - Then anytime we push that branch, it just pushes the changes.
