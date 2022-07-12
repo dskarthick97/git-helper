@@ -256,7 +256,7 @@ GIT REMOTE:
         - will lists out the remote origin url
 
 GIT PUSH:
-    Best practice:
+    Recommended workflow:
         - Before pushing the feature branch code to the remote repo, use pull command to ensure that your HEAD main is 
             up to date with the origin/main
 
@@ -308,3 +308,28 @@ GITHUB ODDS & ENDS:
             Only limited to static pages. (HTML, CSS and JS)
 
         - Github pages divides into User Site and Project Site
+
+GIT COLLABORATION WORKFLOW:
+    AKA Everyone works on a Master / Main branch or any other SINGLE branch.
+
+    - Avoid centralized workflow i.e., don't let everyone work on the master / main branch.
+    - Work on feature branch.
+
+    PULL REQUEST:
+        - Pull requests are to alert team members to new work that needs to be reviewed.
+        - They provide a mechanism to approve or reject the work on a given branch.
+
+        Recommended workflow:
+            - Don't merge the feature branch with master / main locally and push it to remote repo (github).
+            - Instead push the local work or feature branch to the remote repo and open PR (pull request).
+            - Optionaly delete the feature branch in the remote repo.
+
+    FORK & CLONE:
+        Instead of just one centralized remote repo, every dev has their own repo in addition to the "main" repo.
+            Devs make changes and push to their own forks before making pull requests.
+            
+        FORKING:
+            - Creating personal copies of other people's repo.
+            - When we fork a repo, it's creates a copy of that repo and saves it in our repo.
+            - Forking a repo allows us to experiment by cloning it to my local machine and 
+                push changes to it without impacting the original repo.
